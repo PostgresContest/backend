@@ -6,6 +6,7 @@ import (
 )
 
 type Config struct {
+	Mode   string
 	Logger struct {
 		Level string
 	}
@@ -13,6 +14,10 @@ type Config struct {
 		Addr string
 		Port int
 	}
+}
+
+func (c *Config) IsDevMode() bool {
+	return c.Mode == "dev"
 }
 
 type Reader struct {

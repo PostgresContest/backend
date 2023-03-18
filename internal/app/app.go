@@ -1,7 +1,6 @@
 package app
 
 import (
-	"backend/internal/config"
 	"go.uber.org/fx"
 )
 
@@ -17,10 +16,5 @@ func NewApp() *App {
 }
 
 func (a *App) Start() {
-	cfgReader := config.NewReader()
-	err := cfgReader.Read()
-	if err != nil {
-		panic(err)
-	}
-
+	a.fx.Run()
 }
