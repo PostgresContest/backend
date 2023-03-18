@@ -1,0 +1,7 @@
+
+logger:
+  level: debug
+
+http:
+  addr: localhost
+  port: 8080
