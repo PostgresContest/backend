@@ -4,6 +4,7 @@ import (
 	"backend/internal/config"
 	"github.com/sirupsen/logrus"
 	"go.uber.org/fx/fxevent"
+	"io"
 	"os"
 	"reflect"
 )
@@ -36,5 +37,11 @@ func NewProvider(cfg *config.Config) *Logger {
 	}
 	l.SetLevel(level)
 
+	return l
+}
+
+func NewProviderWithDiscardOutput() *Logger {
+	l := NewLogger()
+	l.SetOutput(io.Discard)
 	return l
 }

@@ -5,14 +5,30 @@ import (
 	"os"
 )
 
+type DatabaseConfig struct {
+	Host     string
+	Port     int
+	User     string
+	Dbname   string
+	Password string
+	Sslmode  string
+}
+
 type Config struct {
-	Mode   string
+	Mode string
+
 	Logger struct {
 		Level string
 	}
+
 	Http struct {
 		Addr string
 		Port int
+	}
+
+	DB struct {
+		Private    DatabaseConfig
+		UserAccess DatabaseConfig
 	}
 }
 

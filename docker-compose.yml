@@ -1,0 +1,11 @@
+
+services:
+  go:
+    build: .
+
+  postgres:
+    image: postgres:15.2-alpine
+    environment:
+      - POSTGRES_DB=private
+      - POSTGRES_USER=private
+      - POSTGRES_PASSWORD=private

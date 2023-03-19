@@ -18,10 +18,10 @@ type Handler struct {
 func NewProvider(
 	log *logger.Logger,
 	cfg *config.Config,
-
 	authModule *auth.Handler,
 ) *Handler {
 	l := log.WithField("module", "openapi")
+
 	return &Handler{
 		Handler: authModule,
 		log:     l,

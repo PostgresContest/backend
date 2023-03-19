@@ -2,6 +2,7 @@ package server
 
 import (
 	"backend/internal/config"
+	openapiV1 "backend/internal/handlers/openapi/v1"
 	"backend/internal/logger"
 	"fmt"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
@@ -12,8 +13,8 @@ type Server struct {
 	server *oapi.Server
 }
 
-func NewProvider() (*Server, error) {
-	server, err := oapi.NewServer(oapi.UnimplementedHandler{})
+func NewProvider(handler *openapiV1.Handler) (*Server, error) {
+	server, err := oapi.NewServer(handler)
 
 	if err != nil {
 		return nil, err

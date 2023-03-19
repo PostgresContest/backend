@@ -2,11 +2,14 @@ package app
 
 import (
 	"backend/internal/config"
+	openapiV1 "backend/internal/handlers/openapi/v1"
 	"backend/internal/handlers/openapi/v1/modules/auth"
+	dbPrivate "backend/internal/infrastructure/db/private"
+
 	"backend/internal/logger"
+	userRepository "backend/internal/repositories/user"
 	"backend/internal/server"
 	"go.uber.org/fx"
-	"go.uber.org/fx/fxevent"
 )
 
 func getProvidersAndInvokers() ([]any, []any) {
@@ -14,8 +17,13 @@ func getProvidersAndInvokers() ([]any, []any) {
 		config.NewProvider,
 		logger.NewProvider,
 
+		dbPrivate.NewProvider,
+
+		userRepository.NewProvider,
+
 		auth.NewProvider,
 
+		openapiV1.NewProvider,
 		server.NewProvider,
 	}
 	invokers := []any{
@@ -30,9 +38,6 @@ func getFx() *fx.App {
 	f := fx.New(
 		fx.Provide(providers...),
 		fx.Invoke(invokers...),
-		fx.WithLogger(func(log *logger.Logger) fxevent.Logger {
-			return log
-		}),
 	)
 	return f
 }

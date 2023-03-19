@@ -6,3 +6,26 @@ logger:
 http:
   addr: localhost
   port: 8080
+
+db:
+  private:
+    host: localhost
+    port: 6543
+    user: private
+    dbname: private
+    password: private
+    sslmode: disable
+
+  # Be aware! This connection will use to execute user code
+  # It must be fully secured and wrapped from another databases.
+  # User mustn't have write permissions!
+  # It mustn't contain a personal or sensitive data
+  #
+  # I think you know what to do
+  user_access:
+    host: postgres
+    port: 5432
+    user: user_access
+    dbname: user_access
+    password: user_access
+    sslmode: disable
