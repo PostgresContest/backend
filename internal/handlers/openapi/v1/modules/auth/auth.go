@@ -25,7 +25,10 @@ func NewProvider(
 	}
 }
 
-func (h *Handler) AuthLoginPost(ctx context.Context, req *oapi.LoginBody) (*oapi.Jwt, error) {
-	//TODO implement me
-	panic("implement me")
+func (h *Handler) AuthLoginPost(_ context.Context, req *oapi.LoginBody) (*oapi.Jwt, error) {
+	u, err := h.userRepository.GetByLogin(req.Login)
+	if err != nil {
+		return nil, err
+	}
+	return &oapi.Jwt{Token: u.Login}, err
 }

@@ -7,7 +7,7 @@ import (
 
 type DatabaseConfig struct {
 	Host     string
-	Port     int
+	Port     uint16
 	User     string
 	Dbname   string
 	Password string

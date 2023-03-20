@@ -4,16 +4,21 @@ import (
 	"backend/internal/config"
 	"backend/internal/infrastructure/db"
 	"backend/internal/logger"
-	"go.uber.org/fx"
+	"context"
+	pgxdec "github.com/jackc/pgx-shopspring-decimal"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Connection struct {
-	*db.Connection
+	Dsn  string
+	Pool *pgxpool.Pool
 }
 
-func NewProvider(cfg *config.Config, log *logger.Logger, lc fx.Lifecycle) (*Connection, error) {
+func NewProvider(cfg *config.Config, log *logger.Logger) (*Connection, error) {
 	l := log.WithField("module", "db.private")
-	connection, err := db.NewConnection(
+
+	dsn := db.GetDsn(
 		cfg.DB.Private.Host,
 		cfg.DB.Private.User,
 		cfg.DB.Private.Password,
@@ -21,11 +26,25 @@ func NewProvider(cfg *config.Config, log *logger.Logger, lc fx.Lifecycle) (*Conn
 		cfg.DB.Private.Sslmode,
 		cfg.DB.Private.Port,
 	)
+
+	dbCfg, err := pgxpool.ParseConfig(dsn)
 	if err != nil {
 		return nil, err
 	}
-	if err := connection.Db.Ping(); err != nil {
-		l.Warn("cannot ping database. does it work?")
+	dbCfg.AfterConnect = func(ctx context.Context, conn *pgx.Conn) error {
+		pgxdec.Register(conn.TypeMap())
+		return nil
 	}
-	return &Connection{Connection: connection}, err
+
+	dbPool, err := pgxpool.NewWithConfig(context.Background(), dbCfg)
+
+	if err != nil {
+		l.Fatalf("something went wrong: %e", err)
+		return nil, err
+	}
+
+	return &Connection{
+		Pool: dbPool,
+		Dsn:  dsn,
+	}, err
 }
