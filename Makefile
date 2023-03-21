@@ -7,3 +7,7 @@ start:
 
 stop:
 	docker compose ${DEV_COMPOSE} stop
+
+
+migrate_up:
+	./bin/migrate.sh up

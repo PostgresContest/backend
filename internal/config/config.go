@@ -30,6 +30,10 @@ type Config struct {
 		Private    DatabaseConfig
 		UserAccess DatabaseConfig
 	}
+
+	Jwt struct {
+		Secret string
+	}
 }
 
 func (c *Config) IsDevMode() bool {

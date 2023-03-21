@@ -33,5 +33,6 @@ func NewHttpError(code int, message string) HttpError {
 }
 
 var (
-	NotFoundHttpError = NewHttpError(http.StatusNotFound, "Not found")
+	NotFoundHttpError     = NewHttpError(http.StatusNotFound, "Not found")
+	UnauthorizedHttpError = NewHttpError(http.StatusUnauthorized, "Unauthorized")
 )

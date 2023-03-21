@@ -3,7 +3,8 @@ package app
 import (
 	"backend/internal/config"
 	openapiV1 "backend/internal/handlers/openapi/v1"
-	"backend/internal/handlers/openapi/v1/modules/auth"
+	authModule "backend/internal/handlers/openapi/v1/modules/auth"
+	"backend/internal/infrastructure/auth"
 	dbPrivate "backend/internal/infrastructure/db/private"
 
 	"backend/internal/logger"
@@ -18,10 +19,11 @@ func getProvidersAndInvokers() ([]any, []any) {
 		logger.NewProvider,
 
 		dbPrivate.NewProvider,
+		auth.NewJwtProvider,
 
 		userRepository.NewProvider,
 
-		auth.NewProvider,
+		authModule.NewProvider,
 
 		openapiV1.NewProvider,
 		server.NewProvider,
