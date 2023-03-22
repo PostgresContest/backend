@@ -3,35 +3,31 @@ package auth
 import (
 	"backend/internal/errors"
 	"backend/internal/infrastructure/auth"
+	"backend/internal/infrastructure/repositories/user"
 	"backend/internal/logger"
-	"backend/internal/repositories/user"
 	"context"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/sirupsen/logrus"
 )
 
-type Handler struct {
+type ModuleAuth struct {
 	log            *logrus.Entry
 	userRepository *user.Repository
 	jwt            *auth.Jwt
 }
 
-func NewProvider(
-	log *logger.Logger,
-	jwt *auth.Jwt,
-	userRepository *user.Repository,
-) *Handler {
+func NewProvider(log *logger.Logger, jwt *auth.Jwt, userRepository *user.Repository) *ModuleAuth {
 	l := log.WithField("module", "openapi.auth")
 
-	return &Handler{
+	return &ModuleAuth{
 		log:            l,
 		jwt:            jwt,
 		userRepository: userRepository,
 	}
 }
 
-func (h *Handler) AuthLoginPost(_ context.Context, req *oapi.LoginBody) (*oapi.Jwt, error) {
-	u, err := h.userRepository.GetByLogin(req.Login)
+func (m *ModuleAuth) AuthLoginPost(_ context.Context, req *oapi.LoginBody) (*oapi.Jwt, error) {
+	u, err := m.userRepository.GetByLogin(req.Login)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +36,7 @@ func (h *Handler) AuthLoginPost(_ context.Context, req *oapi.LoginBody) (*oapi.J
 		return nil, errors.UnauthorizedHttpError
 	}
 
-	token, err := h.jwt.Generate(u.ID)
+	token, err := m.jwt.Generate(u.ID)
 
 	return &oapi.Jwt{Token: token}, err
 }

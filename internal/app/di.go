@@ -4,11 +4,12 @@ import (
 	"backend/internal/config"
 	openapiV1 "backend/internal/handlers/openapi/v1"
 	authModule "backend/internal/handlers/openapi/v1/modules/auth"
+	userModule "backend/internal/handlers/openapi/v1/modules/user"
 	"backend/internal/infrastructure/auth"
 	dbPrivate "backend/internal/infrastructure/db/private"
+	userRepository "backend/internal/infrastructure/repositories/user"
 
 	"backend/internal/logger"
-	userRepository "backend/internal/repositories/user"
 	"backend/internal/server"
 	"go.uber.org/fx"
 )
@@ -20,10 +21,12 @@ func getProvidersAndInvokers() ([]any, []any) {
 
 		dbPrivate.NewProvider,
 		auth.NewJwtProvider,
+		auth.NewSecurityProvider,
 
 		userRepository.NewProvider,
 
 		authModule.NewProvider,
+		userModule.NewProvider,
 
 		openapiV1.NewProvider,
 		server.NewProvider,

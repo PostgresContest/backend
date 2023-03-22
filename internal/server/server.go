@@ -3,7 +3,9 @@ package server
 import (
 	"backend/internal/config"
 	openapiV1 "backend/internal/handlers/openapi/v1"
+	"backend/internal/infrastructure/auth"
 	"backend/internal/logger"
+	"backend/internal/middlewares"
 	"fmt"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"net/http"
@@ -13,8 +15,18 @@ type Server struct {
 	server *oapi.Server
 }
 
-func NewProvider(handler *openapiV1.Handler) (*Server, error) {
-	server, err := oapi.NewServer(handler)
+func NewProvider(
+	log *logger.Logger,
+	handler *openapiV1.Handler,
+	security *auth.Security,
+) (*Server, error) {
+	server, err := oapi.NewServer(
+		handler,
+		security,
+		oapi.WithMiddleware(
+			middlewares.RecoverMiddleware(log.WithField("module", "middleware.recover")),
+		),
+	)
 
 	if err != nil {
 		return nil, err

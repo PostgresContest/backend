@@ -11,7 +11,12 @@ var (
 	ErrWrongSigningMethod = errors.New("wrong signing method")
 	ErrWrongFormat        = errors.New("wrong token format")
 	ErrExpiredToken       = errors.New("token expired")
-	userIdField           = "user_id"
+	ErrTokenNotValid      = errors.New("token not valid")
+)
+
+const (
+	expField    = "exp"
+	userIdField = "user_id"
 )
 
 type Jwt struct {
@@ -21,29 +26,25 @@ type Jwt struct {
 
 func NewJwtProvider(cfg *config.Config) (*Jwt, error) {
 	secretByte := []byte(cfg.Jwt.Secret)
-	rsaSigningString, err := jwt.ParseRSAPrivateKeyFromPEM(secretByte)
-	if err != nil {
-		return nil, err
-	}
 	return &Jwt{
-		signingString: rsaSigningString,
-		secret:        secretByte,
+		signingString: secretByte,
 	}, nil
 }
 
-func (t *Jwt) Generate(userId int64) (string, error) {
-	token := jwt.New(jwt.SigningMethodRS256)
+func (t *Jwt) Generate(userID int64) (string, error) {
+	payload := jwt.MapClaims{
+		expField:    time.Now().Add(24 * time.Hour).Unix(),
+		userIdField: userID,
+	}
 
-	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(24 * time.Hour)
-	claims[userIdField] = userId
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
 
 	return token.SignedString(t.signingString)
 }
 
 func (t *Jwt) Verify(token string) (bool, int64, error) {
 	tkn, err := jwt.Parse(token, func(token *jwt.Token) (any, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, ErrWrongSigningMethod
 		}
 
@@ -52,19 +53,21 @@ func (t *Jwt) Verify(token string) (bool, int64, error) {
 			return nil, ErrWrongFormat
 		}
 
-		tokenExpTime, err := tokenMap.GetExpirationTime()
-		if err != nil {
-			return nil, ErrExpiredToken
-		}
-		if tokenExpTime.After(time.Now()) {
+		tokenExpTime, ok := tokenMap[expField]
+		tokenExpTimeUnix, formatOk := tokenExpTime.(float64)
+		if !ok || !formatOk {
 			return nil, ErrWrongFormat
+		}
+
+		if time.Unix(int64(tokenExpTimeUnix), 0).Before(time.Now()) {
+			return nil, ErrExpiredToken
 		}
 
 		if _, ok = tokenMap[userIdField]; !ok {
 			return nil, ErrWrongFormat
 		}
 
-		return t.secret, nil
+		return t.signingString, nil
 	})
 
 	if err != nil {
@@ -72,13 +75,14 @@ func (t *Jwt) Verify(token string) (bool, int64, error) {
 	}
 
 	if !tkn.Valid {
-		return false, 0, err
+		return false, 0, ErrTokenNotValid
 	}
 
 	userId, ok := tkn.Claims.(jwt.MapClaims)[userIdField]
-	if !ok {
-		return false, 0, err
+	userIdFloat, formatOk := userId.(float64)
+	if !ok || !formatOk {
+		return false, 0, ErrTokenNotValid
 	}
 
-	return true, userId.(int64), nil
+	return true, int64(userIdFloat), nil
 }

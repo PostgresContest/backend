@@ -32,31 +32,4 @@ db:
 
 jwt:
   # Should be RSA Private key. This is example. Do not use it.
-  secret: |
-    -----BEGIN RSA PRIVATE KEY-----
-    MIIEpAIBAAKCAQEAyL24YBRCFOxa+UGxRkOi7eGrsUgGJgpwg5cXOiXr2U9jZhRf
-    9ZdUzTxwP2DfUc622LsmjaYiqrTJfzF6RbqA0Brim9e60IcglSRC9oxmCr9AmQaR
-    2TKo7udETueHQ0GL8e7qBcKxfIcCMCIWkBH01xvvtUHH9CfjKNpa3U3IDV39FYeh
-    3DkONwPmIZ9u82+Z+s4xYV5aIUejDUJR3GEUsjHq3gpbXQaxBVdFX5Ez262AEWrj
-    ZXoMuMovmz7w9yzUyfDAe9jVwUoyLd5pmFbiMJ4IH5KnmeDOGypr1VMjQp0zM0xM
-    Y/7H3j3gzsjtyyS2t5Q8HvPGKxXRBT98rgP+tQIDAQABAoIBAQCtAWV/2LXDFpip
-    LYa9CdnHrrCsT2iNLH4fyv3HrZsAZL1D4td47/20DBypYrHU7ZUEYPcvKTnDaaAn
-    MNsycTRHJoSaz2hAA9V+9AuKNSJUrNPdjp3wVQrnKwXiAwS+YCVeUwv5/vu8WRb3
-    qMlNTUx4f6ktzA2qTR4nvViGVlzNtuZ7pzUIzfxS2YRNOuP8pm0xIert/TR3HHgP
-    uXNWzs1mfXwH2CvpXH2IEyHG9HY5LtQsjCV4PX8VcY384Yu5/C+6IPUaPbvoNPcL
-    ZhOHVgxmtCvX4EqCixdLi/mXuWznhZCOlEgLAfE2bE+QsfKQmHnzlfFjBIKHOUvr
-    HVDGbVwBAoGBAOU+5KjPunFSTEpNdnGCGnkx9lRLT6LTC0WoCNinE5rF1p0zFOsV
-    3SVZKCfNcIfAlNbEHbA4tjkNEspzaU3TfCxk/2hVCKYV+LcSn2BoSl+WDrA1d6yD
-    /ocNdYrQjvJG6BpTf/fuJWIqMp5VxqOmeu2bzMWHZgafNraoKXaywi81AoGBAOAr
-    NDA59YwlmqHcz8cHUUISlvWI0VOw0hn9CRbxuUGWqaqhd4nHi7Rjpz5NtIYCCU70
-    oL3Ik3W+6a4rvlsjugqMAlOF6u1CsCFV8e0bhNjX2o+Ze23MFG8bsBZrwaQqcY4C
-    ZRQhZGfQUcHGUOmLvmoncjHr6Vm2lfZ0uLXgbwGBAoGAKQGuD1BRLnIlOWlP1ZAL
-    QkCgqoVqMlsD+irLok2IoTfgYvA/PqoDi+m92BjUl0Pom94q3VnXpq7i/JnWbVh2
-    Ls7GLRiA2oy1l7HaFnmxTBXgfL6jsJVP00KiEvmpiEcMv6DOFEBiKYQY19/KD335
-    IUWsRG0q3+Zc+CFugVAKkj0CgYEAqZPlSeo+d4Nm47VvtMczUEFR03Jpr97eQWyq
-    eKHpm9VGil7VV/QNGiwcs0QDITDfK8xg4NCfxH3ktq4+tSFktl/NzrNK0asWJFGo
-    zs53g7ZejyzzM08j0h1m6r8fYHn/JwdmwYC1PNdZUbYdNV9Sb2lhuKQXBZfa//Ky
-    XFvofYECgYAOLYMoPzEqytOptgy92VqY/i2Ay/Et/Lo6cPnu33iDKaZ0ysXoCUnD
-    KY22ITvGaCQfYkCYNSKlYx0aUYD6pz8sEP5QrCG+d+VROpA/afsNz7iiL3OZyZfM
-    o/3hMicXHtiV7vHYaRxqq8+6yGMQnQvunZ5Wc2SFs7+NGNYl81yWqg==
-    -----END RSA PRIVATE KEY-----
+  secret: "very-strong-secret"
