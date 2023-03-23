@@ -8,9 +8,9 @@ import (
 	"backend/internal/infrastructure/auth"
 	dbPrivate "backend/internal/infrastructure/db/private"
 	userRepository "backend/internal/infrastructure/repositories/user"
-
 	"backend/internal/logger"
 	"backend/internal/server"
+
 	"go.uber.org/fx"
 )
 
@@ -44,5 +44,6 @@ func getFx() *fx.App {
 		fx.Provide(providers...),
 		fx.Invoke(invokers...),
 	)
+
 	return f
 }

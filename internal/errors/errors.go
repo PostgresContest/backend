@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-type HttpError interface {
+type HTTPError interface {
 	Code() int
 	Message() string
 	Error() string
@@ -28,11 +28,11 @@ func (e *httpError) Error() string {
 	return fmt.Sprintf("code = %d; message = %s", e.code, e.message)
 }
 
-func NewHttpError(code int, message string) HttpError {
+func NewHTTPError(code int, message string) HTTPError {
 	return &httpError{code: code, message: message}
 }
 
 var (
-	NotFoundHttpError     = NewHttpError(http.StatusNotFound, "Not found")
-	UnauthorizedHttpError = NewHttpError(http.StatusUnauthorized, "Unauthorized")
+	NotFoundHTTPError     = NewHTTPError(http.StatusNotFound, "Not found")
+	UnauthorizedHTTPError = NewHTTPError(http.StatusUnauthorized, "Unauthorized")
 )

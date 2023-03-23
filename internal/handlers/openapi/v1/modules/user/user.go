@@ -1,11 +1,13 @@
 package user
 
 import (
+	"context"
+
 	pctx "backend/internal/context"
 	"backend/internal/errors"
 	"backend/internal/infrastructure/repositories/user"
 	"backend/internal/logger"
-	"context"
+
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/sirupsen/logrus"
 )
@@ -27,10 +29,10 @@ func NewProvider(log *logger.Logger, userRepository *user.Repository) *ModuleUse
 func (m *ModuleUser) UserGet(ctx context.Context) (*oapi.User, error) {
 	userID := pctx.UserID(ctx)
 	if userID == 0 {
-		return nil, errors.UnauthorizedHttpError
+		return nil, errors.UnauthorizedHTTPError
 	}
 
-	usr, err := m.userRepository.GetByID(userID)
+	usr, err := m.userRepository.GetByID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}

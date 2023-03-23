@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"os"
+
+	"github.com/spf13/viper"
 )
 
 type DatabaseConfig struct {
@@ -21,7 +22,7 @@ type Config struct {
 		Level string
 	}
 
-	Http struct {
+	HTTP struct {
 		Addr string
 		Port int
 	}
@@ -32,7 +33,8 @@ type Config struct {
 	}
 
 	Jwt struct {
-		Secret string
+		Secret     string
+		TTLSeconds int32
 	}
 }
 
@@ -56,8 +58,10 @@ func NewReader() *Reader {
 
 	v.SetConfigFile(configFile)
 	v.SetConfigType("yaml")
+
 	return &Reader{
-		v: v,
+		v:   v,
+		cfg: new(Config),
 	}
 }
 
@@ -67,7 +71,6 @@ func (c *Reader) Read() error {
 		return err
 	}
 
-	c.cfg = new(Config)
 	err = c.v.Unmarshal(c.cfg)
 	if err != nil {
 		return err

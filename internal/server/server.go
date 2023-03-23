@@ -1,14 +1,16 @@
 package server
 
 import (
+	"fmt"
+	"net/http"
+	"time"
+
 	"backend/internal/config"
 	openapiV1 "backend/internal/handlers/openapi/v1"
 	"backend/internal/infrastructure/auth"
 	"backend/internal/logger"
 	"backend/internal/middlewares"
-	"fmt"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
-	"net/http"
 )
 
 type Server struct {
@@ -27,7 +29,6 @@ func NewProvider(
 			middlewares.RecoverMiddleware(log.WithField("module", "middleware.recover")),
 		),
 	)
-
 	if err != nil {
 		return nil, err
 	}
@@ -35,14 +36,30 @@ func NewProvider(
 	return &Server{server: server}, nil
 }
 
+const (
+	readTimeoutSeconds  = 5
+	writeTimeoutSeconds = 10
+)
+
 func Invoke(log *logger.Logger, cfg *config.Config, srv *Server) error {
 	l := log.WithField("module", "server")
-	listenFullAddr := fmt.Sprintf("%s:%d", cfg.Http.Addr, cfg.Http.Port)
+	listenFullAddr := fmt.Sprintf("%s:%d", cfg.HTTP.Addr, cfg.HTTP.Port)
+
+	HTTPSrv := &http.Server{
+		Addr:         listenFullAddr,
+		ReadTimeout:  readTimeoutSeconds * time.Second,
+		WriteTimeout: writeTimeoutSeconds * time.Second,
+		Handler:      srv.server,
+	}
 
 	l.Info("starting server")
-	err := http.ListenAndServe(listenFullAddr, srv.server)
-	if err != nil {
-		l.Fatalf("cannot start server: %e", err)
-	}
-	return err
+
+	go func() {
+		err := HTTPSrv.ListenAndServe()
+		if err != nil {
+			panic(fmt.Sprintf("cannot start server: %e", err))
+		}
+	}()
+
+	return nil
 }

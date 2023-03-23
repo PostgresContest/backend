@@ -11,3 +11,9 @@ stop:
 
 migrate_up:
 	./bin/migrate.sh up
+
+lint_check:
+	./bin/lint.sh check
+
+lint_fix:
+	./bin/lint.sh fix

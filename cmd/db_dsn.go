@@ -1,12 +1,13 @@
 package cmd
 
 import (
+	"os"
+
 	"backend/internal/config"
 	"backend/internal/infrastructure/db/private"
 	"backend/internal/logger"
 	"github.com/spf13/cobra"
 	"go.uber.org/fx"
-	"os"
 )
 
 func dbDsnCommand() *cobra.Command {

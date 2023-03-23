@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"backend/internal/types"
+
 	"github.com/ogen-go/ogen/middleware"
 )
 
@@ -12,6 +13,7 @@ func RecoverMiddleware(log types.Logger) middleware.Middleware {
 				log.Warn("recovered", r)
 			}
 		}()
+
 		return next(req)
 	}
 }

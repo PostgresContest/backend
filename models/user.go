@@ -1,8 +1,9 @@
 package models
 
 import (
-	"golang.org/x/crypto/bcrypt"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -16,13 +17,16 @@ type User struct {
 	UpdatedAt    time.Time
 }
 
+const BCryptCost = 14
+
 func (u *User) SetPasswordHash(password string) error {
-	passHash, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	passHash, err := bcrypt.GenerateFromPassword([]byte(password), BCryptCost)
 	if err != nil {
 		return err
 	}
 
 	u.PasswordHash = string(passHash)
+
 	return nil
 }
 

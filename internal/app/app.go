@@ -10,6 +10,7 @@ type App struct {
 
 func NewApp() *App {
 	f := getFx()
+
 	return &App{
 		fx: f,
 	}

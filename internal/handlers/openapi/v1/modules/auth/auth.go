@@ -1,11 +1,13 @@
 package auth
 
 import (
+	"context"
+
 	"backend/internal/errors"
 	"backend/internal/infrastructure/auth"
 	"backend/internal/infrastructure/repositories/user"
 	"backend/internal/logger"
-	"context"
+
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/sirupsen/logrus"
 )
@@ -26,17 +28,17 @@ func NewProvider(log *logger.Logger, jwt *auth.Jwt, userRepository *user.Reposit
 	}
 }
 
-func (m *ModuleAuth) AuthLoginPost(_ context.Context, req *oapi.LoginBody) (*oapi.Jwt, error) {
-	u, err := m.userRepository.GetByLogin(req.Login)
+func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.LoginBody) (*oapi.Jwt, error) {
+	usr, err := m.userRepository.GetByLogin(ctx, req.Login)
 	if err != nil {
 		return nil, err
 	}
 
-	if !u.ComparePassword(req.Password) {
-		return nil, errors.UnauthorizedHttpError
+	if !usr.ComparePassword(req.Password) {
+		return nil, errors.UnauthorizedHTTPError
 	}
 
-	token, err := m.jwt.Generate(u.ID)
+	token, err := m.jwt.Generate(usr.ID)
 
 	return &oapi.Jwt{Token: token}, err
 }

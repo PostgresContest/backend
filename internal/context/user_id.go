@@ -10,8 +10,9 @@ func WithUserID(ctx context.Context, userID int64) context.Context {
 
 func UserID(ctx context.Context) int64 {
 	val := ctx.Value(keyUserID{})
-	if val != nil {
-		return val.(int64)
+	if value, ok := val.(int64); val != nil && ok {
+		return value
 	}
+
 	return 0
 }

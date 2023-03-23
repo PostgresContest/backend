@@ -1,9 +1,10 @@
 package user
 
 import (
+	"context"
+
 	"backend/internal/infrastructure/db/private"
 	"backend/models"
-	"context"
 )
 
 type Repository struct {
@@ -14,13 +15,14 @@ func NewProvider(connection *private.Connection) *Repository {
 	return &Repository{connection: connection}
 }
 
-func (r *Repository) GetByLogin(login string) (*models.User, error) {
+func (r *Repository) GetByLogin(ctx context.Context, login string) (*models.User, error) {
 	row := r.connection.Pool.QueryRow(
-		context.Background(),
+		ctx,
 		"SELECT id, login, password_hash, first_name, last_name, registered_at, updated_at FROM users WHERE login = $1",
 		login,
 	)
 	result := models.User{}
+
 	err := row.Scan(
 		&result.ID,
 		&result.Login,
@@ -37,13 +39,14 @@ func (r *Repository) GetByLogin(login string) (*models.User, error) {
 	return &result, nil
 }
 
-func (r *Repository) GetByID(ID int64) (*models.User, error) {
+func (r *Repository) GetByID(ctx context.Context, id int64) (*models.User, error) {
 	row := r.connection.Pool.QueryRow(
-		context.Background(),
+		ctx,
 		"SELECT id, login, password_hash, first_name, last_name, registered_at, updated_at FROM users WHERE id = $1",
-		ID,
+		id,
 	)
 	result := models.User{}
+
 	err := row.Scan(
 		&result.ID,
 		&result.Login,

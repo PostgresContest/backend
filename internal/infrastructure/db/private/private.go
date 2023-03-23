@@ -1,13 +1,16 @@
 package private
 
 import (
+	"context"
+
 	"backend/internal/config"
 	"backend/internal/infrastructure/db"
 	"backend/internal/logger"
-	"context"
+
 	pgxdec "github.com/jackc/pgx-shopspring-decimal"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"go.uber.org/fx"
 )
 
 type Connection struct {
@@ -15,8 +18,8 @@ type Connection struct {
 	Pool *pgxpool.Pool
 }
 
-func NewProvider(cfg *config.Config, log *logger.Logger) (*Connection, error) {
-	l := log.WithField("module", "db.private")
+func NewProvider(cfg *config.Config, log *logger.Logger, lc fx.Lifecycle) (*Connection, error) {
+	logF := log.WithField("module", "db.private")
 
 	dsn := db.GetDsn(
 		cfg.DB.Private.Host,
@@ -31,17 +34,27 @@ func NewProvider(cfg *config.Config, log *logger.Logger) (*Connection, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	dbCfg.AfterConnect = func(ctx context.Context, conn *pgx.Conn) error {
 		pgxdec.Register(conn.TypeMap())
+
 		return nil
 	}
 
 	dbPool, err := pgxpool.NewWithConfig(context.Background(), dbCfg)
-
 	if err != nil {
-		l.Fatalf("something went wrong: %e", err)
+		logF.Fatalf("something went wrong: %e", err)
+
 		return nil, err
 	}
+
+	lc.Append(fx.Hook{
+		OnStop: func(ctx context.Context) error {
+			dbPool.Close()
+
+			return nil
+		},
+	})
 
 	return &Connection{
 		Pool: dbPool,

@@ -5,6 +5,7 @@ import (
 	"backend/internal/handlers/openapi/v1/modules/auth"
 	"backend/internal/handlers/openapi/v1/modules/user"
 	"backend/internal/logger"
+
 	"github.com/sirupsen/logrus"
 )
 

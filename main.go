@@ -1,12 +1,15 @@
 package main
 
 import (
+	"os"
+
 	"backend/cmd"
-	"log"
+	_ "github.com/lib/pq"
 )
 
 func main() {
 	if err := cmd.Root().Execute(); err != nil {
-		log.Fatal(err)
+		_, _ = os.Stdout.WriteString(err.Error())
+		os.Exit(1)
 	}
 }

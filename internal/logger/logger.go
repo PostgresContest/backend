@@ -1,12 +1,14 @@
 package logger
 
 import (
-	"backend/internal/config"
-	"github.com/sirupsen/logrus"
-	"go.uber.org/fx/fxevent"
 	"io"
 	"os"
 	"reflect"
+
+	"backend/internal/config"
+
+	"github.com/sirupsen/logrus"
+	"go.uber.org/fx/fxevent"
 )
 
 type Logger struct {
@@ -29,19 +31,21 @@ func NewLogger() *Logger {
 }
 
 func NewProvider(cfg *config.Config) *Logger {
-	l := NewLogger()
+	log := NewLogger()
 
 	level, err := logrus.ParseLevel(cfg.Logger.Level)
 	if err != nil {
-		l.Fatal(err)
+		log.Fatal(err)
 	}
-	l.SetLevel(level)
 
-	return l
+	log.SetLevel(level)
+
+	return log
 }
 
 func NewProviderWithDiscardOutput() *Logger {
 	l := NewLogger()
 	l.SetOutput(io.Discard)
+
 	return l
 }
