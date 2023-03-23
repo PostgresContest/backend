@@ -19,7 +19,7 @@ type Connection struct {
 }
 
 func NewProvider(cfg *config.Config, log *logger.Logger, lc fx.Lifecycle) (*Connection, error) {
-	logF := log.WithField("module", "db.private")
+	l := log.WithField("module", "db.private")
 
 	dsn := db.GetDsn(
 		cfg.DB.Private.Host,
@@ -43,7 +43,7 @@ func NewProvider(cfg *config.Config, log *logger.Logger, lc fx.Lifecycle) (*Conn
 
 	dbPool, err := pgxpool.NewWithConfig(context.Background(), dbCfg)
 	if err != nil {
-		logF.Fatalf("something went wrong: %e", err)
+		l.Fatalf("something went wrong: %e", err)
 
 		return nil, err
 	}
