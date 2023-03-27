@@ -20,7 +20,7 @@ func getProvidersAndInvokers() ([]any, []any) {
 		logger.NewProvider,
 
 		dbPrivate.NewProvider,
-		auth.NewJwtProvider,
+		auth.NewAccessTokenProvider,
 		auth.NewSecurityProvider,
 
 		userRepository.NewProvider,

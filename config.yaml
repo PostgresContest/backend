@@ -33,4 +33,4 @@ db:
 jwt:
   # Should be RSA Private key. This is example. Do not use it.
   secret: "very-strong-secret"
-  ttl_seconds:  86400
+  ttl_seconds:  86400 # 24 hours

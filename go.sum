@@ -40,6 +40,10 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/PostgresContest/openapi v0.0.0-20230321140937-6f0c28866125 h1:3hrkfwanKXRpXphAIoWp3U6oxOyM3ToJZ5MA1cVegiw=
 github.com/PostgresContest/openapi v0.0.0-20230321140937-6f0c28866125/go.mod h1:GDyjTJTZsa/tpMGg30gcySbjFSY5YQBSdikoHz9ZEIw=
+github.com/PostgresContest/openapi v0.0.0-20230327150003-7f95dde97cb2 h1:vYbGAr/xFVuYtj2ABG3PCQ+CEREfoupBeenqChra4OU=
+github.com/PostgresContest/openapi v0.0.0-20230327150003-7f95dde97cb2/go.mod h1:GDyjTJTZsa/tpMGg30gcySbjFSY5YQBSdikoHz9ZEIw=
+github.com/PostgresContest/openapi v0.0.0-20230327150623-538cdfc9cc2f h1:WRqyVGgVcVqxkmWFHBUyoz6dN5Cvn/oeNC9uI9Mbqy8=
+github.com/PostgresContest/openapi v0.0.0-20230327150623-538cdfc9cc2f/go.mod h1:GDyjTJTZsa/tpMGg30gcySbjFSY5YQBSdikoHz9ZEIw=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=

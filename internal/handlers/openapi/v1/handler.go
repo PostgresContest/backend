@@ -5,7 +5,8 @@ import (
 	"backend/internal/handlers/openapi/v1/modules/auth"
 	"backend/internal/handlers/openapi/v1/modules/user"
 	"backend/internal/logger"
-
+	"context"
+	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/sirupsen/logrus"
 )
 
@@ -15,6 +16,11 @@ type Handler struct {
 
 	*auth.ModuleAuth
 	*user.ModuleUser
+}
+
+func (h *Handler) TaskPost(ctx context.Context, req oapi.OptTaskPostReq) (*oapi.Task, error) {
+	//TODO implement me
+	panic("implement me")
 }
 
 func NewProvider(

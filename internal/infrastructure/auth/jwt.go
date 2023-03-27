@@ -13,89 +13,97 @@ var (
 	ErrWrongSigningMethod = errors.New("wrong signing method")
 	ErrWrongFormat        = errors.New("wrong token format")
 	ErrExpiredToken       = errors.New("token expired")
-	ErrTokenNotValid      = errors.New("token not valid")
 )
 
-const (
-	expField    = "exp"
-	userIDField = "user_id"
-)
-
-type Jwt struct {
+type AccessTokenProvider struct {
 	signingString any
 	ttlSeconds    int32
 }
 
-func NewJwtProvider(cfg *config.Config) (*Jwt, error) {
+type Claims interface {
+	GetExpiration() time.Time
+	GetUserID() int64
+	GetUserRole() string
+}
+
+type claims struct {
+	Exp      time.Time
+	UserID   int64
+	UserRole string
+	jwt.RegisteredClaims
+}
+
+func (c *claims) GetExpiration() time.Time {
+	return c.Exp
+}
+
+func (c *claims) GetUserID() int64 {
+	return c.UserID
+}
+
+func (c *claims) GetUserRole() string {
+	return c.UserRole
+}
+
+func NewAccessTokenProvider(cfg *config.Config) (*AccessTokenProvider, error) {
 	secretByte := []byte(cfg.Jwt.Secret)
 
-	return &Jwt{
+	return &AccessTokenProvider{
 		signingString: secretByte,
 		ttlSeconds:    cfg.Jwt.TTLSeconds,
 	}, nil
 }
 
-func (t *Jwt) Generate(userID int64) (string, error) {
-	payload := jwt.MapClaims{
-		expField:    time.Now().Add(time.Duration(t.ttlSeconds) * time.Second).Unix(),
-		userIDField: userID,
+func (t *AccessTokenProvider) Generate(userID int64, userRole string) (string, Claims, error) {
+	payload := claims{
+		Exp:      time.Now().Add(time.Duration(t.ttlSeconds) * time.Second),
+		UserID:   userID,
+		UserRole: userRole,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
-
-	return token.SignedString(t.signingString)
+	signedString, err := token.SignedString(t.signingString)
+	if err != nil {
+		return "", nil, err
+	}
+	return signedString, &payload, nil
 }
 
-func checkTokenExpInfo(tokenMap jwt.MapClaims) error {
-	tokenExpTime, ok := tokenMap[expField]
-
-	tokenExpTimeUnix, formatOk := tokenExpTime.(float64)
-	if !ok || !formatOk {
-		return ErrWrongFormat
-	}
-
-	if time.Unix(int64(tokenExpTimeUnix), 0).Before(time.Now()) {
+func checkTokenCompleteness(cl *claims) error {
+	if !cl.Exp.Before(time.Now()) {
 		return ErrExpiredToken
 	}
-
-	return ErrExpiredToken
+	if cl.UserID == 0 {
+		return ErrWrongFormat
+	}
+	if len(cl.UserRole) == 0 {
+		return ErrExpiredToken
+	}
+	return nil
 }
 
-func (t *Jwt) Verify(token string) (bool, int64, error) {
-	tkn, err := jwt.Parse(token, func(token *jwt.Token) (any, error) {
+func (t *AccessTokenProvider) ParseClaims(token string) (Claims, error) {
+	cl := new(claims)
+	_, err := jwt.ParseWithClaims(token, cl, func(token *jwt.Token) (any, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, ErrWrongSigningMethod
 		}
 
-		tokenMap, ok := token.Claims.(jwt.MapClaims)
+		parsedClaims, ok := token.Claims.(*claims)
 		if !ok {
 			return nil, ErrWrongFormat
 		}
 
-		if err := checkTokenExpInfo(tokenMap); err != nil {
+		if err := checkTokenCompleteness(parsedClaims); err != nil {
 			return nil, err
-		}
-
-		if _, ok = tokenMap[userIDField]; !ok {
-			return nil, ErrWrongFormat
 		}
 
 		return t.signingString, nil
 	})
+
 	if err != nil {
-		return false, 0, err
+		return nil, err
 	}
 
-	if !tkn.Valid {
-		return false, 0, ErrTokenNotValid
-	}
-
-	userID, ok := tkn.Claims.(jwt.MapClaims)[userIDField]
-
-	userIDFloat, formatOk := userID.(float64)
-	if !ok || !formatOk {
-		return false, 0, ErrTokenNotValid
-	}
-
-	return true, int64(userIDFloat), nil
+	return cl, nil
 }

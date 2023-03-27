@@ -18,7 +18,7 @@ func NewProvider(connection *private.Connection) *Repository {
 func (r *Repository) GetByLogin(ctx context.Context, login string) (*models.User, error) {
 	row := r.connection.Pool.QueryRow(
 		ctx,
-		"SELECT id, login, password_hash, first_name, last_name, registered_at, updated_at FROM users WHERE login = $1",
+		"SELECT id, login, password_hash, first_name, last_name, role, registered_at, updated_at FROM users WHERE login = $1",
 		login,
 	)
 	result := models.User{}
@@ -29,6 +29,7 @@ func (r *Repository) GetByLogin(ctx context.Context, login string) (*models.User
 		&result.PasswordHash,
 		&result.FirstName,
 		&result.LastName,
+		&result.Role,
 		&result.RegisteredAt,
 		&result.UpdatedAt,
 	)
@@ -42,7 +43,7 @@ func (r *Repository) GetByLogin(ctx context.Context, login string) (*models.User
 func (r *Repository) GetByID(ctx context.Context, id int64) (*models.User, error) {
 	row := r.connection.Pool.QueryRow(
 		ctx,
-		"SELECT id, login, password_hash, first_name, last_name, registered_at, updated_at FROM users WHERE id = $1",
+		"SELECT id, login, password_hash, first_name, last_name, role, registered_at, updated_at FROM users WHERE id = $1",
 		id,
 	)
 	result := models.User{}
@@ -53,6 +54,7 @@ func (r *Repository) GetByID(ctx context.Context, id int64) (*models.User, error
 		&result.PasswordHash,
 		&result.FirstName,
 		&result.LastName,
+		&result.Role,
 		&result.RegisteredAt,
 		&result.UpdatedAt,
 	)

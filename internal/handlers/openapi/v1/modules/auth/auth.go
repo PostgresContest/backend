@@ -15,20 +15,20 @@ import (
 type ModuleAuth struct {
 	log            *logrus.Entry
 	userRepository *user.Repository
-	jwt            *auth.Jwt
+	atProvider     *auth.AccessTokenProvider
 }
 
-func NewProvider(log *logger.Logger, jwt *auth.Jwt, userRepository *user.Repository) *ModuleAuth {
+func NewProvider(log *logger.Logger, atProvider *auth.AccessTokenProvider, userRepository *user.Repository) *ModuleAuth {
 	l := log.WithField("module", "openapi.auth")
 
 	return &ModuleAuth{
 		log:            l,
-		jwt:            jwt,
+		atProvider:     atProvider,
 		userRepository: userRepository,
 	}
 }
 
-func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.LoginBody) (*oapi.Jwt, error) {
+func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.AuthLoginPostReq) (*oapi.Jwt, error) {
 	usr, err := m.userRepository.GetByLogin(ctx, req.Login)
 	if err != nil {
 		return nil, err
@@ -38,7 +38,15 @@ func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.LoginBody) (*o
 		return nil, errors.UnauthorizedHTTPError
 	}
 
-	token, err := m.jwt.Generate(usr.ID)
+	token, claims, err := m.atProvider.Generate(usr.ID, usr.Role)
 
-	return &oapi.Jwt{Token: token}, err
+	return &oapi.Jwt{
+		AccessToken: token,
+		Exp:         claims.GetExpiration(),
+		Role:        usr.Role,
+	}, err
+}
+
+func (m *ModuleAuth) AuthVerifyGet(_ context.Context) (*oapi.OkResponse, error) {
+	return &oapi.OkResponse{Status: "ok"}, nil
 }
