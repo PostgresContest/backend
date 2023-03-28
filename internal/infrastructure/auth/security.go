@@ -1,11 +1,11 @@
 package auth
 
 import (
-	"backend/internal/errors"
-	"backend/models"
 	"context"
 
 	pctx "backend/internal/context"
+	"backend/internal/errors"
+	"backend/models"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 
@@ -24,13 +24,18 @@ func (s *Security) HandleBearerAuth(ctx context.Context, _ string, t oapi.Bearer
 	if err != nil {
 		return ctx, err
 	}
+
 	ctx = pctx.WithUserID(ctx, cl.GetUserID())
 	ctx = pctx.WithUserRole(ctx, cl.GetUserRole())
 
 	return ctx, nil
 }
 
-func (s *Security) HandleBearerAdminAuth(ctx context.Context, _ string, t oapi.BearerAdminAuth) (context.Context, error) {
+func (s *Security) HandleBearerAdminAuth(
+	ctx context.Context,
+	_ string,
+	t oapi.BearerAdminAuth,
+) (context.Context, error) {
 	token := t.GetToken()
 
 	cl, err := s.jwt.ParseClaims(token)

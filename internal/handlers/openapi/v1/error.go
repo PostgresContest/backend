@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"backend/internal/errors"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/jackc/pgx/v5"
 )
@@ -33,7 +32,8 @@ func (h *Handler) NewError(_ context.Context, err error) *oapi.ErrorStatusCode {
 		return internalStatus
 	}
 
-	if httpErr, ok := err.(errors.HTTPError); ok {
+	var httpErr errors.HTTPError
+	if errorsBuiltin.As(err, &httpErr) && httpErr != nil {
 		return &oapi.ErrorStatusCode{
 			StatusCode: httpErr.Code(),
 			Response: oapi.Error{

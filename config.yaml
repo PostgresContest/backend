@@ -22,12 +22,12 @@ db:
   # It mustn't contain a personal or sensitive data
   #
   # I think you know what to do
-  user_access:
+  public:
     host: postgres
     port: 5432
-    user: user_access
-    dbname: user_access
-    password: user_access
+    user: public
+    dbname: public
+    password: public
     sslmode: disable
 
 jwt:

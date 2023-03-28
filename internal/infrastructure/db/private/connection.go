@@ -6,7 +6,6 @@ import (
 	"backend/internal/config"
 	"backend/internal/infrastructure/db"
 	"backend/internal/logger"
-
 	pgxdec "github.com/jackc/pgx-shopspring-decimal"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"

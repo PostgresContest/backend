@@ -24,6 +24,4 @@ linters:
     - varnamelen
     - wrapcheck
     - gofumpt
-    - errorlint
-    - gci
     - goimports

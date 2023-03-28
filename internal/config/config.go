@@ -28,8 +28,8 @@ type Config struct {
 	}
 
 	DB struct {
-		Private    DatabaseConfig
-		UserAccess DatabaseConfig
+		Private DatabaseConfig
+		Public  DatabaseConfig
 	}
 
 	Jwt struct {

@@ -1,11 +1,12 @@
 package v1
 
 import (
+	"context"
+
 	"backend/internal/config"
 	"backend/internal/handlers/openapi/v1/modules/auth"
 	"backend/internal/handlers/openapi/v1/modules/user"
 	"backend/internal/logger"
-	"context"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/sirupsen/logrus"
 )
@@ -18,9 +19,8 @@ type Handler struct {
 	*user.ModuleUser
 }
 
-func (h *Handler) TaskPost(ctx context.Context, req oapi.OptTaskPostReq) (*oapi.Task, error) {
-	//TODO implement me
-	panic("implement me")
+func (h *Handler) TaskPost(_ context.Context, _ oapi.OptTaskPostReq) (*oapi.Task, error) {
+	panic("unimpl")
 }
 
 func NewProvider(

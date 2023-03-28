@@ -7,7 +7,6 @@ import (
 	"backend/internal/infrastructure/auth"
 	"backend/internal/infrastructure/repositories/user"
 	"backend/internal/logger"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/sirupsen/logrus"
 )
@@ -18,7 +17,11 @@ type ModuleAuth struct {
 	atProvider     *auth.AccessTokenProvider
 }
 
-func NewProvider(log *logger.Logger, atProvider *auth.AccessTokenProvider, userRepository *user.Repository) *ModuleAuth {
+func NewProvider(
+	log *logger.Logger,
+	atProvider *auth.AccessTokenProvider,
+	userRepository *user.Repository,
+) *ModuleAuth {
 	l := log.WithField("module", "openapi.auth")
 
 	return &ModuleAuth{

@@ -1,10 +1,11 @@
-package user_access
+package public
 
 import (
+	"context"
+
 	"backend/internal/config"
 	"backend/internal/infrastructure/db"
 	"backend/internal/logger"
-	"context"
 	pgxdec "github.com/jackc/pgx-shopspring-decimal"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -20,12 +21,12 @@ func NewProvider(cfg *config.Config, log *logger.Logger, lc fx.Lifecycle) (*Conn
 	l := log.WithField("module", "db.private")
 
 	dsn := db.GetDsn(
-		cfg.DB.UserAccess.Host,
-		cfg.DB.UserAccess.User,
-		cfg.DB.UserAccess.Password,
-		cfg.DB.UserAccess.Dbname,
-		cfg.DB.UserAccess.Sslmode,
-		cfg.DB.UserAccess.Port,
+		cfg.DB.Public.Host,
+		cfg.DB.Public.User,
+		cfg.DB.Public.Password,
+		cfg.DB.Public.Dbname,
+		cfg.DB.Public.Sslmode,
+		cfg.DB.Public.Port,
 	)
 
 	dbCfg, err := pgxpool.ParseConfig(dsn)

@@ -6,7 +6,6 @@ import (
 	"reflect"
 
 	"backend/internal/config"
-
 	"github.com/sirupsen/logrus"
 	"go.uber.org/fx/fxevent"
 )
