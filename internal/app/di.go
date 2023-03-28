@@ -7,6 +7,7 @@ import (
 	userModule "backend/internal/handlers/openapi/v1/modules/user"
 	"backend/internal/infrastructure/auth"
 	dbPrivate "backend/internal/infrastructure/db/private"
+	dbUserAccess "backend/internal/infrastructure/db/user_access"
 	userRepository "backend/internal/infrastructure/repositories/user"
 	"backend/internal/logger"
 	"backend/internal/server"
@@ -20,6 +21,7 @@ func getProvidersAndInvokers() ([]any, []any) {
 		logger.NewProvider,
 
 		dbPrivate.NewProvider,
+		dbUserAccess.NewProvider,
 		auth.NewAccessTokenProvider,
 		auth.NewSecurityProvider,
 
@@ -31,6 +33,7 @@ func getProvidersAndInvokers() ([]any, []any) {
 		openapiV1.NewProvider,
 		server.NewProvider,
 	}
+
 	invokers := []any{
 		server.Invoke,
 	}

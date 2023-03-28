@@ -2,14 +2,14 @@
 -- +goose StatementBegin
 CREATE TABLE users
 (
-    id            serial PRIMARY KEY,
-    login         varchar(64) unique,
-    password_hash varchar(128)                           not null,
-    first_name    varchar(64),
-    last_name     varchar(64),
+    id            SERIAL PRIMARY KEY,
+    login         VARCHAR(64) UNIQUE,
+    password_hash VARCHAR(128)                           NOT NULL,
+    first_name    VARCHAR(64),
+    last_name     VARCHAR(64),
 
-    registered_at timestamp with time zone DEFAULT now() NOT NULL,
-    updated_at    timestamp with time zone DEFAULT now() NOT NULL
+    registered_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    updated_at    TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 -- +goose StatementEnd
 
