@@ -1,16 +1,22 @@
 package hydrators
 
 import (
+	"backend/internal/infrastructure/executor"
 	"backend/models"
+	"encoding/json"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 
-func HydrateQuery(models *models.Query) *oapi.Query {
+func HydrateQuery(q *models.Query) *oapi.Query {
+	var fds []executor.FieldDescription
+	_ = json.Unmarshal([]byte(q.FieldDescriptions), &fds)
+
 	return &oapi.Query{
-		ID:           models.ID,
-		QueryRow:     models.QueryRaw,
-		QueryHash:    models.QueryHash,
-		ResponseRaw:  models.ResultRaw,
-		ResponseHash: models.ResultHash,
+		ID:               q.ID,
+		QueryRow:         q.QueryRaw,
+		QueryHash:        q.QueryHash,
+		ResultRaw:        q.ResultRaw,
+		ResultHash:       q.ResultHash,
+		FieldDescription: HydrateFieldDescriptions(fds),
 	}
 }

@@ -42,7 +42,7 @@ func (m *ModuleTask) TaskPost(ctx context.Context, req oapi.OptTaskPostReq) (*oa
 		return nil, err
 	}
 
-	query := new(models.Query).FromExecutorResult(result)
+	query := new(models.Query).FromExecutorResult(result).SetCreatedNow()
 
 	if err := m.queryRepository.Create(ctx, query); err != nil {
 		return nil, err

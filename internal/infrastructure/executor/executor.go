@@ -20,9 +20,9 @@ type Executor struct {
 }
 
 func NewProvider(connection *dbPublic.Connection) *Executor {
-
 	typeMap := pgtype.NewMap()
 	pgxdec.Register(typeMap)
+
 	return &Executor{
 		connection: connection.Pool,
 		typeMap:    typeMap,

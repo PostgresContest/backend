@@ -11,7 +11,7 @@ CREATE TABLE queries
     created_at   TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 CREATE INDEX idx_queries_query_hash ON queries (query_hash);
-CREATE INDEX idx_queries_response_hash ON queries (query_hash);
+CREATE INDEX idx_queries_response_hash ON queries (result_hash);
 -- +goose StatementEnd
 
 -- +goose Down

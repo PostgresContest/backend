@@ -3,7 +3,7 @@ module backend
 go 1.19
 
 require (
-	github.com/PostgresContest/openapi v0.0.0-20230327150623-538cdfc9cc2f
+	github.com/PostgresContest/openapi v0.0.0-20230403180637-da452334f838
 	github.com/golang-jwt/jwt/v5 v5.0.0-rc.1
 	github.com/jackc/pgx-shopspring-decimal v0.0.0-20220624020537-1d36b5a1853e
 	github.com/jackc/pgx/v5 v5.3.1
