@@ -31,7 +31,7 @@ func NewProvider(
 	}
 }
 
-func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.AuthLoginPostReq) (*oapi.Jwt, error) {
+func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.AuthLoginPostReq) (oapi.AuthLoginPostRes, error) {
 	usr, err := m.userRepository.GetByLogin(ctx, req.Login)
 	if err != nil {
 		return nil, err
@@ -50,6 +50,6 @@ func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.AuthLoginPostR
 	}, err
 }
 
-func (m *ModuleAuth) AuthVerifyGet(_ context.Context) (*oapi.OkResponse, error) {
+func (m *ModuleAuth) AuthVerifyGet(_ context.Context) (oapi.AuthVerifyGetRes, error) {
 	return &oapi.OkResponse{Status: "ok"}, nil
 }

@@ -36,7 +36,7 @@ func NewProvider(
 	}
 }
 
-func (m *ModuleTask) TaskPost(ctx context.Context, req oapi.OptTaskPostReq) (*oapi.Task, error) {
+func (m *ModuleTask) TaskPost(ctx context.Context, req oapi.OptTaskPostReq) (oapi.TaskPostRes, error) {
 	result, err := m.executor.Execute(ctx, req.Value.QueryRaw)
 	if err != nil {
 		return nil, err
