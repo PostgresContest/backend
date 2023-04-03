@@ -1,9 +1,9 @@
 package cmd
 
 import (
+	"backend/internal/infrastructure/config"
 	"os"
 
-	"backend/internal/config"
 	"backend/internal/infrastructure/db/private"
 	"backend/internal/logger"
 	"github.com/spf13/cobra"

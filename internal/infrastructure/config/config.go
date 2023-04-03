@@ -12,6 +12,7 @@ type DatabaseConfig struct {
 	User     string
 	Dbname   string
 	Password string
+	Schema   string
 	Sslmode  string
 }
 

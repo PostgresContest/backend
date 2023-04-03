@@ -1,16 +1,20 @@
 package app
 
 import (
-	"backend/internal/config"
-	openapiV1 "backend/internal/handlers/openapi/v1"
-	authModule "backend/internal/handlers/openapi/v1/modules/auth"
-	userModule "backend/internal/handlers/openapi/v1/modules/user"
 	"backend/internal/infrastructure/auth"
+	"backend/internal/infrastructure/config"
 	dbPrivate "backend/internal/infrastructure/db/private"
 	dbPublic "backend/internal/infrastructure/db/public"
+	"backend/internal/infrastructure/executor"
+	openapiV1 "backend/internal/infrastructure/handlers/openapi/v1"
+	authModule "backend/internal/infrastructure/handlers/openapi/v1/modules/auth"
+	taskModule "backend/internal/infrastructure/handlers/openapi/v1/modules/task"
+	userModule "backend/internal/infrastructure/handlers/openapi/v1/modules/user"
+	queryRepository "backend/internal/infrastructure/repositories/query"
+	taskRepository "backend/internal/infrastructure/repositories/task"
 	userRepository "backend/internal/infrastructure/repositories/user"
+	"backend/internal/infrastructure/server"
 	"backend/internal/logger"
-	"backend/internal/server"
 	"go.uber.org/fx"
 )
 
@@ -25,9 +29,13 @@ func getProvidersAndInvokers() ([]any, []any) {
 		auth.NewSecurityProvider,
 
 		userRepository.NewProvider,
+		queryRepository.NewProvider,
+		taskRepository.NewProvider,
+		executor.NewProvider,
 
 		authModule.NewProvider,
 		userModule.NewProvider,
+		taskModule.NewProvider,
 
 		openapiV1.NewProvider,
 		server.NewProvider,

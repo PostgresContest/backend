@@ -14,6 +14,7 @@ db:
     user: private
     dbname: private
     password: private
+    schema: public
     sslmode: disable
 
   # Be aware! This connection will use to execute user code
@@ -23,11 +24,12 @@ db:
   #
   # I think you know what to do
   public:
-    host: postgres
-    port: 5432
-    user: public
-    dbname: public
-    password: public
+    host: localhost
+    port: 6543
+    user: private
+    dbname: demo
+    password: private
+    schema: public
     sslmode: disable
 
 jwt:

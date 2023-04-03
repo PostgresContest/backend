@@ -1,15 +1,15 @@
 package server
 
 import (
+	"backend/internal/infrastructure/config"
+	openapiV1 "backend/internal/infrastructure/handlers/openapi/v1"
+	"backend/internal/middlewares"
 	"fmt"
 	"net/http"
 	"time"
 
-	"backend/internal/config"
-	openapiV1 "backend/internal/handlers/openapi/v1"
 	"backend/internal/infrastructure/auth"
 	"backend/internal/logger"
-	"backend/internal/middlewares"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 
@@ -37,8 +37,8 @@ func NewProvider(
 }
 
 const (
-	readTimeoutSeconds  = 5
-	writeTimeoutSeconds = 10
+	readTimeoutSeconds  = 10
+	writeTimeoutSeconds = 30
 )
 
 func Invoke(log *logger.Logger, cfg *config.Config, srv *Server) error {

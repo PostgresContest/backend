@@ -1,9 +1,9 @@
 package private
 
 import (
+	"backend/internal/infrastructure/config"
 	"context"
 
-	"backend/internal/config"
 	"backend/internal/infrastructure/db"
 	"backend/internal/logger"
 	pgxdec "github.com/jackc/pgx-shopspring-decimal"
@@ -25,6 +25,7 @@ func NewProvider(cfg *config.Config, log *logger.Logger, lc fx.Lifecycle) (*Conn
 		cfg.DB.Private.User,
 		cfg.DB.Private.Password,
 		cfg.DB.Private.Dbname,
+		cfg.DB.Private.Schema,
 		cfg.DB.Private.Sslmode,
 		cfg.DB.Private.Port,
 	)

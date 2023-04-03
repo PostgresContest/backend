@@ -1,23 +1,14 @@
 package logger
 
 import (
+	"backend/internal/infrastructure/config"
+	"github.com/sirupsen/logrus"
 	"io"
 	"os"
-	"reflect"
-
-	"backend/internal/config"
-	"github.com/sirupsen/logrus"
-	"go.uber.org/fx/fxevent"
 )
 
 type Logger struct {
 	*logrus.Logger
-}
-
-func (l *Logger) LogEvent(event fxevent.Event) {
-	log := l.WithField("module", "fx")
-	typeName := reflect.TypeOf(event)
-	log.Debugf("event: %s", typeName)
 }
 
 func NewLogger() *Logger {
