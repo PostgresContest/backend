@@ -10,6 +10,7 @@ import (
 	authModule "backend/internal/infrastructure/handlers/openapi/v1/modules/auth"
 	taskModule "backend/internal/infrastructure/handlers/openapi/v1/modules/task"
 	userModule "backend/internal/infrastructure/handlers/openapi/v1/modules/user"
+	attemptRepository "backend/internal/infrastructure/repositories/attempt"
 	queryRepository "backend/internal/infrastructure/repositories/query"
 	taskRepository "backend/internal/infrastructure/repositories/task"
 	userRepository "backend/internal/infrastructure/repositories/user"
@@ -31,6 +32,7 @@ func getProvidersAndInvokers() ([]any, []any) {
 		userRepository.NewProvider,
 		queryRepository.NewProvider,
 		taskRepository.NewProvider,
+		attemptRepository.NewProvider,
 		executor.NewProvider,
 
 		authModule.NewProvider,
