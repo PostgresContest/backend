@@ -2,9 +2,10 @@ package logger
 
 import (
 	"backend/internal/infrastructure/config"
-	"github.com/sirupsen/logrus"
 	"io"
 	"os"
+
+	"github.com/sirupsen/logrus"
 )
 
 type Logger struct {

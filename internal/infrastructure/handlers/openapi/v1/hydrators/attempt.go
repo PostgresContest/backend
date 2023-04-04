@@ -2,6 +2,7 @@ package hydrators
 
 import (
 	"backend/models"
+
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 

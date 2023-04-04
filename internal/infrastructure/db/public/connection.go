@@ -3,10 +3,12 @@ package public
 import (
 	"backend/internal/infrastructure/config"
 	"context"
+
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"backend/internal/infrastructure/db"
 	"backend/internal/logger"
+
 	pgxdec "github.com/jackc/pgx-shopspring-decimal"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"

@@ -10,6 +10,7 @@ import (
 
 	"backend/internal/infrastructure/auth"
 	"backend/internal/logger"
+
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 

@@ -4,6 +4,7 @@ import (
 	"backend/internal/infrastructure/db/private"
 	"backend/models"
 	"context"
+
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

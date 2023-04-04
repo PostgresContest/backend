@@ -11,9 +11,10 @@ import (
 	"backend/internal/logger"
 	"backend/models"
 	builtinContext "context"
+	"time"
+
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
 type ModuleTask struct {

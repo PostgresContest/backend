@@ -6,6 +6,7 @@ import (
 
 	"backend/internal/infrastructure/db/private"
 	"backend/internal/logger"
+
 	"github.com/spf13/cobra"
 	"go.uber.org/fx"
 )

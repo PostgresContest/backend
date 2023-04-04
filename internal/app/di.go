@@ -16,6 +16,7 @@ import (
 	userRepository "backend/internal/infrastructure/repositories/user"
 	"backend/internal/infrastructure/server"
 	"backend/internal/logger"
+
 	"go.uber.org/fx"
 )
 

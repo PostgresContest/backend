@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"backend/internal/types"
+
 	"github.com/ogen-go/ogen/middleware"
 )
 

@@ -2,14 +2,21 @@ package hydrators
 
 import (
 	"backend/models"
+
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 
 type TaskOption func(*oapi.Task)
 
-func WithQuery(query *models.Query) TaskOption {
+func TaskWithQuery(query *models.Query) TaskOption {
 	return func(task *oapi.Task) {
 		task.Query = oapi.NewOptQuery(*HydrateQuery(query))
+	}
+}
+
+func TaskWithLastAttempt(attempt *models.Attempt) TaskOption {
+	return func(task *oapi.Task) {
+		task.LastAttempt = oapi.NewOptAttempt(*HydrateAttempt(attempt))
 	}
 }
 
