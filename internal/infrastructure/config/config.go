@@ -37,6 +37,10 @@ type Config struct {
 		Secret     string
 		TTLSeconds int32
 	}
+
+	CORS struct {
+		AllowedOrigins []string
+	}
 }
 
 func (c *Config) IsDevMode() bool {

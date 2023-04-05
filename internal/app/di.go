@@ -20,8 +20,8 @@ import (
 	"go.uber.org/fx"
 )
 
-func getProvidersAndInvokers() ([]any, []any) {
-	providers := []any{
+func getProviders() []any {
+	return []any{
 		config.NewProvider,
 		logger.NewProvider,
 
@@ -40,22 +40,21 @@ func getProvidersAndInvokers() ([]any, []any) {
 		userModule.NewProvider,
 		taskModule.NewProvider,
 
-		openapiV1.NewProvider,
-		server.NewProvider,
+		openapiV1.NewHandlerProvider,
+		openapiV1.NewServerProvider,
 	}
+}
 
-	invokers := []any{
+func getInvokers() []any {
+	return []any{
 		server.Invoke,
 	}
-
-	return providers, invokers
 }
 
 func getFx() *fx.App {
-	providers, invokers := getProvidersAndInvokers()
 	f := fx.New(
-		fx.Provide(providers...),
-		fx.Invoke(invokers...),
+		fx.Provide(getProviders()...),
+		fx.Invoke(getInvokers()...),
 	)
 
 	return f

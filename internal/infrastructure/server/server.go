@@ -3,38 +3,16 @@ package server
 import (
 	"backend/internal/infrastructure/config"
 	openapiV1 "backend/internal/infrastructure/handlers/openapi/v1"
-	"backend/internal/middlewares"
 	"fmt"
 	"net/http"
 	"time"
 
-	"backend/internal/infrastructure/auth"
 	"backend/internal/logger"
-
-	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 
-type Server struct {
-	server *oapi.Server
-}
-
-func NewProvider(
-	log *logger.Logger,
-	handler *openapiV1.Handler,
-	security *auth.Security,
-) (*Server, error) {
-	server, err := oapi.NewServer(
-		handler,
-		security,
-		oapi.WithMiddleware(
-			middlewares.RecoverMiddleware(log.WithField("module", "middleware.recover")),
-		),
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	return &Server{server: server}, nil
+type SrvProvider interface {
+	http.Handler
+	BaseRoute() string
 }
 
 const (
@@ -42,15 +20,27 @@ const (
 	writeTimeoutSeconds = 30
 )
 
-func Invoke(log *logger.Logger, cfg *config.Config, srv *Server) error {
-	l := log.WithField("module", "server")
-	listenFullAddr := fmt.Sprintf("%s:%d", cfg.HTTP.Addr, cfg.HTTP.Port)
+func makeServer(providers ...SrvProvider) http.Handler {
+	mux := http.NewServeMux()
+	for _, provider := range providers {
+		root := provider.BaseRoute() + "/"
+		mux.Handle(root, http.StripPrefix(provider.BaseRoute(), provider))
+	}
 
+	return mux
+}
+
+func Invoke(log *logger.Logger, cfg *config.Config, srv *openapiV1.Server) error {
+	l := log.WithField("module", "server")
+
+	mux := makeServer(srv)
+
+	listenFullAddr := fmt.Sprintf("%s:%d", cfg.HTTP.Addr, cfg.HTTP.Port)
 	HTTPSrv := &http.Server{
 		Addr:         listenFullAddr,
 		ReadTimeout:  readTimeoutSeconds * time.Second,
 		WriteTimeout: writeTimeoutSeconds * time.Second,
-		Handler:      srv.server,
+		Handler:      mux,
 	}
 
 	l.Info("starting server")

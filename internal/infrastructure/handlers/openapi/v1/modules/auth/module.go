@@ -2,6 +2,8 @@ package auth
 
 import (
 	"context"
+	stdErrs "errors"
+	"github.com/jackc/pgx/v5"
 
 	"backend/internal/errors"
 	"backend/internal/infrastructure/auth"
@@ -32,9 +34,12 @@ func NewProvider(
 	}
 }
 
-func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.AuthLoginPostReq) (oapi.AuthLoginPostRes, error) {
+func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.AuthLoginPostReq) (*oapi.Jwt, error) {
 	usr, err := m.userRepository.GetByLogin(ctx, req.Login)
 	if err != nil {
+		if stdErrs.Is(err, pgx.ErrNoRows) {
+			return nil, errors.UnauthorizedHTTPError
+		}
 		return nil, err
 	}
 
@@ -51,6 +56,6 @@ func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.AuthLoginPostR
 	}, err
 }
 
-func (m *ModuleAuth) AuthVerifyGet(_ context.Context) (oapi.AuthVerifyGetRes, error) {
+func (m *ModuleAuth) AuthVerifyGet(_ context.Context) (*oapi.OkResponse, error) {
 	return &oapi.OkResponse{Status: "ok"}, nil
 }

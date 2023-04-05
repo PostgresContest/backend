@@ -26,7 +26,7 @@ func NewProvider(log *logger.Logger, userRepository *user.Repository) *ModuleUse
 	}
 }
 
-func (m *ModuleUser) UserGet(ctx context.Context) (oapi.UserGetRes, error) {
+func (m *ModuleUser) UserGet(ctx context.Context) (*oapi.User, error) {
 	userID := pctx.UserID(ctx)
 	if userID == 0 {
 		return nil, errors.UnauthorizedHTTPError

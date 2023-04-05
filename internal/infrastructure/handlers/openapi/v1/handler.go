@@ -19,7 +19,7 @@ type Handler struct {
 	*task.ModuleTask
 }
 
-func NewProvider(
+func NewHandlerProvider(
 	log *logger.Logger,
 	cfg *config.Config,
 

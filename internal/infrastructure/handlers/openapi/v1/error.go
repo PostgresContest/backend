@@ -19,25 +19,25 @@ func processError(err error) error {
 	return err
 }
 
-var internalStatus = &oapi.ErrorStatusCode{
+var internalErr = &oapi.ErrStatusCode{
 	StatusCode: http.StatusInternalServerError,
-	Response: oapi.Error{
+	Response: oapi.Err{
 		Code:    http.StatusInternalServerError,
 		Message: "Internal server error",
 	},
 }
 
-func (h *Handler) NewError(_ context.Context, err error) *oapi.ErrorStatusCode {
+func (h *Handler) NewError(_ context.Context, err error) *oapi.ErrStatusCode {
 	err = processError(err)
 	if err == nil {
-		return internalStatus
+		return internalErr
 	}
 
 	var httpErr errors.HTTPError
 	if errorsBuiltin.As(err, &httpErr) && httpErr != nil {
-		return &oapi.ErrorStatusCode{
+		return &oapi.ErrStatusCode{
 			StatusCode: httpErr.Code(),
-			Response: oapi.Error{
+			Response: oapi.Err{
 				Code:    httpErr.Code(),
 				Message: httpErr.Message(),
 			},
@@ -50,9 +50,9 @@ func (h *Handler) NewError(_ context.Context, err error) *oapi.ErrorStatusCode {
 		message = err.Error()
 	}
 
-	return &oapi.ErrorStatusCode{
+	return &oapi.ErrStatusCode{
 		StatusCode: http.StatusInternalServerError,
-		Response: oapi.Error{
+		Response: oapi.Err{
 			Code:    http.StatusInternalServerError,
 			Message: message,
 		},
