@@ -19,6 +19,7 @@ func CORSMiddleware(isDevMode bool, allowedOrigins []string) func(h http.Handler
 		AllowOriginFunc: func(origin string) bool {
 			return isDevMode || isOriginAllowed(origin, allowedOrigins)
 		},
+		AllowedHeaders: []string{"Authorization"},
 	})
 	return rsCors.Handler
 }

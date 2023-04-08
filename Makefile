@@ -1,5 +1,5 @@
 
-DEV_COMPOSE = -f docker-compose.yml -f docker-compose-dev.yml
+DEV_COMPOSE = -f docker-compose.yml
 
 start:
 	docker compose ${DEV_COMPOSE} rm -fv

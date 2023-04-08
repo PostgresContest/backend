@@ -29,7 +29,7 @@ db:
     user: private
     dbname: demo
     password: private
-    schema: public
+    schema: bookings
     sslmode: disable
 
 jwt:
