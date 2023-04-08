@@ -2,7 +2,6 @@ package hydrators
 
 import (
 	"backend/models"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 
@@ -30,5 +29,6 @@ func HydrateTask(task *models.Task, options ...TaskOption) *oapi.Task {
 	for _, option := range options {
 		option(res)
 	}
+
 	return res
 }

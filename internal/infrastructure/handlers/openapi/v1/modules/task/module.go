@@ -1,6 +1,9 @@
 package task
 
 import (
+	builtinContext "context"
+	"time"
+
 	"backend/internal/context"
 	"backend/internal/errors"
 	"backend/internal/infrastructure/executor"
@@ -10,9 +13,6 @@ import (
 	taskRepository "backend/internal/infrastructure/repositories/task"
 	"backend/internal/logger"
 	"backend/models"
-	builtinContext "context"
-	"time"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/sirupsen/logrus"
 )
@@ -86,12 +86,16 @@ func (m *ModuleTask) TasksGet(ctx builtinContext.Context) ([]oapi.Task, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	result := make([]oapi.Task, len(tasks))
+
 	for i, task := range tasks {
 		var options []hydrators.TaskOption
 		if attempt, ok := lastAttemptsMap[task.ID]; ok {
 			options = append(options, hydrators.TaskWithLastAttempt(&attempt))
 		}
+
+		task := task
 		result[i] = *hydrators.HydrateTask(&task, options...)
 	}
 
@@ -102,15 +106,22 @@ func checkIsResponseCorrect(referenceQuery *models.Query, checkingQueryID *model
 	if referenceQuery.QueryHash == checkingQueryID.QueryHash {
 		return true
 	}
+
 	if referenceQuery.ResultHash == checkingQueryID.ResultHash {
 		return true
 	}
+
 	return false
 }
 
-func (m *ModuleTask) TaskTaskIDAttemptPost(ctx builtinContext.Context, req *oapi.TaskTaskIDAttemptPostReq, params oapi.TaskTaskIDAttemptPostParams) (*oapi.Attempt, error) {
+func (m *ModuleTask) TaskTaskIDAttemptPost(
+	ctx builtinContext.Context,
+	req *oapi.TaskTaskIDAttemptPostReq,
+	params oapi.TaskTaskIDAttemptPostParams,
+) (*oapi.Attempt, error) {
 	q := req.QueryRaw
 	result, err := m.executor.Execute(ctx, q)
+
 	if err != nil {
 		return nil, err
 	}
@@ -151,21 +162,29 @@ func (m *ModuleTask) TaskTaskIDAttemptPost(ctx builtinContext.Context, req *oapi
 	return attemptResult, nil
 }
 
-func (m *ModuleTask) TaskTaskIDAttemptsGet(ctx builtinContext.Context, params oapi.TaskTaskIDAttemptsGetParams) ([]oapi.Attempt, error) {
+func (m *ModuleTask) TaskTaskIDAttemptsGet(
+	ctx builtinContext.Context,
+	params oapi.TaskTaskIDAttemptsGetParams,
+) ([]oapi.Attempt, error) {
 	attempts, err := m.attemptRepository.GetByTaskID(ctx, params.TaskID)
 	if err != nil {
 		return nil, err
 	}
 
 	result := make([]oapi.Attempt, len(attempts))
+
 	for i, attempt := range attempts {
+		attempt := attempt
 		result[i] = *hydrators.HydrateAttempt(&attempt)
 	}
 
 	return result, err
 }
 
-func (m *ModuleTask) AttemptAttemptIDGet(ctx builtinContext.Context, params oapi.AttemptAttemptIDGetParams) (*oapi.Attempt, error) {
+func (m *ModuleTask) AttemptAttemptIDGet(
+	ctx builtinContext.Context,
+	params oapi.AttemptAttemptIDGetParams,
+) (*oapi.Attempt, error) {
 	attempt, err := m.attemptRepository.GetByID(ctx, params.AttemptID)
 	if err != nil {
 		return nil, err

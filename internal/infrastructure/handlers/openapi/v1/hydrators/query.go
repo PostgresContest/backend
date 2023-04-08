@@ -1,10 +1,10 @@
 package hydrators
 
 import (
-	"backend/internal/infrastructure/executor"
-	"backend/models"
 	"encoding/json"
 
+	"backend/internal/infrastructure/executor"
+	"backend/models"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 

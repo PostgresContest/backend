@@ -1,9 +1,10 @@
 package models
 
 import (
-	"backend/internal/infrastructure/executor"
 	"encoding/json"
 	"time"
+
+	"backend/internal/infrastructure/executor"
 )
 
 type Query struct {
@@ -18,21 +19,23 @@ type Query struct {
 }
 
 func (q *Query) FromExecutorResult(res *executor.Result) *Query {
-
 	q.QueryRaw = res.Query
 	q.QueryHash = res.QueryHash
 	q.ResultHash = res.ResultHash
 
-	rowsJson, _ := json.Marshal(res.Rows)
-	q.ResultRaw = string(rowsJson)
+	//nolint:all
+	rowsJSON, _ := json.Marshal(res.Rows)
+	q.ResultRaw = string(rowsJSON)
 
-	fdJson, _ := json.Marshal(res.FieldDescription)
-	q.FieldDescriptions = string(fdJson)
+	//nolint:all
+	fdJSON, _ := json.Marshal(res.FieldDescription)
+	q.FieldDescriptions = string(fdJSON)
 
 	return q
 }
 
 func (q *Query) SetCreatedNow() *Query {
 	q.CreatedAt = time.Now()
+
 	return q
 }

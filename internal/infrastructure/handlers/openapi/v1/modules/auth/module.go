@@ -3,14 +3,13 @@ package auth
 import (
 	"context"
 	stdErrs "errors"
-	"github.com/jackc/pgx/v5"
 
 	"backend/internal/errors"
 	"backend/internal/infrastructure/auth"
 	"backend/internal/infrastructure/repositories/user"
 	"backend/internal/logger"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
+	"github.com/jackc/pgx/v5"
 	"github.com/sirupsen/logrus"
 )
 
@@ -40,6 +39,7 @@ func (m *ModuleAuth) AuthLoginPost(ctx context.Context, req *oapi.AuthLoginPostR
 		if stdErrs.Is(err, pgx.ErrNoRows) {
 			return nil, errors.UnauthorizedHTTPError
 		}
+
 		return nil, err
 	}
 

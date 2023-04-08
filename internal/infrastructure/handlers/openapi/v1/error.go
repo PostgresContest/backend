@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"backend/internal/errors"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 	"github.com/jackc/pgx/v5"
 )

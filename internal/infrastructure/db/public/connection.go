@@ -1,16 +1,14 @@
 package public
 
 import (
-	"backend/internal/infrastructure/config"
 	"context"
 
-	"github.com/jackc/pgx/v5/pgtype"
-
+	"backend/internal/infrastructure/config"
 	"backend/internal/infrastructure/db"
 	"backend/internal/logger"
-
 	pgxdec "github.com/jackc/pgx-shopspring-decimal"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/fx"
 )
@@ -52,6 +50,7 @@ func NewProvider(cfg *config.Config, log *logger.Logger, lc fx.Lifecycle) (*Conn
 	connection.Pool, err = pgxpool.NewWithConfig(context.Background(), dbCfg)
 	if err != nil {
 		l.Fatalf("something went wrong: %e", err)
+
 		return nil, err
 	}
 

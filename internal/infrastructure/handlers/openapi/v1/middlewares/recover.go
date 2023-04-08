@@ -1,9 +1,10 @@
 package middlewares
 
 import (
-	"backend/internal/types"
 	"net/http"
 	"runtime/debug"
+
+	"backend/internal/types"
 )
 
 func getStack() []byte {

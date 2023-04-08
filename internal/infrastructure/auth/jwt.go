@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"backend/internal/infrastructure/config"
 	"errors"
 	"time"
 
+	"backend/internal/infrastructure/config"
 	"github.com/golang-jwt/jwt/v5"
 )
 

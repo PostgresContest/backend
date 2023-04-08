@@ -1,10 +1,10 @@
 package logger
 
 import (
-	"backend/internal/infrastructure/config"
 	"io"
 	"os"
 
+	"backend/internal/infrastructure/config"
 	"github.com/sirupsen/logrus"
 )
 

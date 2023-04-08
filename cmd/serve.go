@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"backend/internal/app"
-
 	"github.com/spf13/cobra"
 )
 

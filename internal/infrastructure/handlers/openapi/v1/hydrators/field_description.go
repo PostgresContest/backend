@@ -2,7 +2,6 @@ package hydrators
 
 import (
 	"backend/internal/infrastructure/executor"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 
@@ -18,5 +17,6 @@ func HydrateFieldDescriptions(fds []executor.FieldDescription) []oapi.FieldDescr
 	for i, fd := range fds {
 		res[i] = *HydrateFieldDescription(fd)
 	}
+
 	return res
 }

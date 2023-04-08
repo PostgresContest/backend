@@ -1,12 +1,12 @@
 package server
 
 import (
-	"backend/internal/infrastructure/config"
-	openapiV1 "backend/internal/infrastructure/handlers/openapi/v1"
 	"fmt"
 	"net/http"
 	"time"
 
+	"backend/internal/infrastructure/config"
+	openapiV1 "backend/internal/infrastructure/handlers/openapi/v1"
 	"backend/internal/logger"
 )
 
@@ -22,6 +22,7 @@ const (
 
 func makeServer(providers ...SrvProvider) http.Handler {
 	mux := http.NewServeMux()
+
 	for _, provider := range providers {
 		root := provider.BaseRoute() + "/"
 		mux.Handle(root, http.StripPrefix(provider.BaseRoute(), provider))

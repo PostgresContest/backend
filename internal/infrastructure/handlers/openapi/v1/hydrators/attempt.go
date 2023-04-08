@@ -2,7 +2,6 @@ package hydrators
 
 import (
 	"backend/models"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 
@@ -22,5 +21,6 @@ func HydrateAttempt(attempt *models.Attempt, options ...AttemptOption) *oapi.Att
 	for _, option := range options {
 		option(result)
 	}
+
 	return result
 }

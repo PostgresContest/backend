@@ -1,12 +1,13 @@
 package v1
 
 import (
+	"net/http"
+
 	"backend/internal/infrastructure/auth"
 	"backend/internal/infrastructure/config"
 	"backend/internal/infrastructure/handlers/openapi/v1/middlewares"
 	"backend/internal/logger"
 	oapi "github.com/PostgresContest/openapi/gen/v1"
-	"net/http"
 )
 
 type Server struct {
@@ -17,7 +18,12 @@ func (s *Server) BaseRoute() string {
 	return "/api"
 }
 
-func NewServerProvider(log *logger.Logger, handler *Handler, security *auth.Security, cfg *config.Config) (*Server, error) {
+func NewServerProvider(
+	log *logger.Logger,
+	handler *Handler,
+	security *auth.Security,
+	cfg *config.Config,
+) (*Server, error) {
 	srv, err := oapi.NewServer(
 		handler,
 		security,

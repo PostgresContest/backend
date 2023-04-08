@@ -1,12 +1,11 @@
 package private
 
 import (
-	"backend/internal/infrastructure/config"
 	"context"
 
+	"backend/internal/infrastructure/config"
 	"backend/internal/infrastructure/db"
 	"backend/internal/logger"
-
 	pgxdec "github.com/jackc/pgx-shopspring-decimal"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"

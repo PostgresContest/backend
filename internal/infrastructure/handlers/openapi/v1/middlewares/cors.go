@@ -1,8 +1,9 @@
 package middlewares
 
 import (
-	"github.com/rs/cors"
 	"net/http"
+
+	"github.com/rs/cors"
 )
 
 func isOriginAllowed(origin string, allowedOrigins []string) bool {
@@ -11,6 +12,7 @@ func isOriginAllowed(origin string, allowedOrigins []string) bool {
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -21,5 +23,6 @@ func CORSMiddleware(isDevMode bool, allowedOrigins []string) func(h http.Handler
 		},
 		AllowedHeaders: []string{"Authorization"},
 	})
+
 	return rsCors.Handler
 }

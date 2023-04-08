@@ -6,7 +6,6 @@ import (
 	pctx "backend/internal/context"
 	"backend/internal/errors"
 	"backend/models"
-
 	oapi "github.com/PostgresContest/openapi/gen/v1"
 )
 

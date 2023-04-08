@@ -1,13 +1,13 @@
 package executor
 
 import (
-	dbPublic "backend/internal/infrastructure/db/public"
 	"context"
 	"crypto/sha256"
 	"errors"
 	"fmt"
 	"strings"
 
+	dbPublic "backend/internal/infrastructure/db/public"
 	pgxdec "github.com/jackc/pgx-shopspring-decimal"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -47,6 +47,7 @@ type Result struct {
 
 func (e *Executor) normalizeDatatype(datatype pgconn.FieldDescription) string {
 	result := ""
+
 	t, ok := e.typeMap.TypeForOID(datatype.DataTypeOID)
 	if !ok {
 		return result
@@ -71,6 +72,7 @@ func generateResultHash(fd []FieldDescription, rows []Row) string {
 	for i, description := range fd {
 		buf.WriteString(fmt.Sprintf("%d %s %s", i, description.Name, description.Datatype))
 	}
+
 	for r, row := range rows {
 		for c, col := range row {
 			buf.WriteString(fmt.Sprintf("%d %d %s", r, c, col))
@@ -86,6 +88,7 @@ func (e *Executor) makeResponse(query string, rawValues [][][]uint8, fieldDesc [
 	resp := new(Result)
 	resp.Query = query
 	resp.Rows = make([]Row, len(rawValues))
+
 	for r, value := range rawValues {
 		resp.Rows[r] = make(Row, len(value))
 		for c, uint8s := range value {
@@ -118,6 +121,7 @@ func checkBanWords(query string) bool {
 			return false
 		}
 	}
+
 	return true
 }
 
@@ -130,6 +134,7 @@ func (e *Executor) Execute(ctx context.Context, query string) (*Result, error) {
 	if err != nil {
 		return nil, err
 	}
+	//nolint:all
 	defer tr.Rollback(ctx)
 
 	rows, err := tr.Query(ctx, query)
@@ -139,8 +144,10 @@ func (e *Executor) Execute(ctx context.Context, query string) (*Result, error) {
 	defer rows.Close()
 
 	var values [][][]uint8
+
 	for rows.Next() {
 		rawValues := rows.RawValues()
+
 		value := make([][]byte, len(rawValues))
 		for i, rValue := range rawValues {
 			value[i] = make([]byte, len(rValue))
