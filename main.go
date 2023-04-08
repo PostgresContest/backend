@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"backend/cmd"
-	_ "github.com/lib/pq"
 )
 
 func main() {
