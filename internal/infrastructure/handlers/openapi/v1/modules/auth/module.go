@@ -8,7 +8,7 @@ import (
 	"backend/internal/infrastructure/auth"
 	"backend/internal/infrastructure/repositories/user"
 	"backend/internal/logger"
-	oapi "github.com/PostgresContest/openapi/gen/v1"
+	oapi "github.com/PostgresContest/openapi/go/gen/v1"
 	"github.com/jackc/pgx/v5"
 	"github.com/sirupsen/logrus"
 )

@@ -3,7 +3,7 @@ module backend
 go 1.19
 
 require (
-	github.com/PostgresContest/openapi v0.0.0-20230404150546-3894b38e040e
+	github.com/PostgresContest/openapi/go v0.0.0-20230409074044-55ae362075e0
 	github.com/golang-jwt/jwt/v5 v5.0.0-rc.1
 	github.com/jackc/pgx-shopspring-decimal v0.0.0-20220624020537-1d36b5a1853e
 	github.com/jackc/pgx/v5 v5.3.1
@@ -35,7 +35,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
-	github.com/ogen-go/ogen v0.61.0 // indirect
+	github.com/ogen-go/ogen v0.62.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect

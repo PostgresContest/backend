@@ -13,7 +13,7 @@ import (
 	taskRepository "backend/internal/infrastructure/repositories/task"
 	"backend/internal/logger"
 	"backend/models"
-	oapi "github.com/PostgresContest/openapi/gen/v1"
+	oapi "github.com/PostgresContest/openapi/go/gen/v1"
 	"github.com/sirupsen/logrus"
 )
 

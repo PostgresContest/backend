@@ -38,8 +38,8 @@ cloud.google.com/go/storage v1.14.0/go.mod h1:GrKmX003DSIwi9o29oFT7YDnHYwZoctc3f
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
-github.com/PostgresContest/openapi v0.0.0-20230404150546-3894b38e040e h1:N7Jhy8kTHqlsosMP8Rx37PWqjo6JD13Zu5wB2syX5ZM=
-github.com/PostgresContest/openapi v0.0.0-20230404150546-3894b38e040e/go.mod h1:aWIwPrQ/7f1ZAFAlRU8ZlQLqrBX5AJKpc/qQ4DdiMlE=
+github.com/PostgresContest/openapi/go v0.0.0-20230409074044-55ae362075e0 h1:WTQpEx0bddaSliGzUfUTgUXIK0JhX8uQjZDhtjEnOlA=
+github.com/PostgresContest/openapi/go v0.0.0-20230409074044-55ae362075e0/go.mod h1:0FGV8M66ffqsNULkjSReriy1qs7FGZra1dwH3igPDnY=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=
@@ -177,8 +177,8 @@ github.com/mattn/go-isatty v0.0.18 h1:DOKFKCQ7FNG2L1rbrmstDN4QVRdS89Nkh85u68Uwp9
 github.com/mattn/go-isatty v0.0.18/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/mitchellh/mapstructure v1.5.0 h1:jeMsZIYE/09sWLaz43PL7Gy6RuMjD2eJVyuac5Z2hdY=
 github.com/mitchellh/mapstructure v1.5.0/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
-github.com/ogen-go/ogen v0.61.0 h1:U3hkx9ydCL2tb0055ut0o8hWaEOWCs2+rG2rpwCMGPM=
-github.com/ogen-go/ogen v0.61.0/go.mod h1:Rn43MIqVcT8utwLi45lv7e/a4kPRk+klLsWsgB1z9GQ=
+github.com/ogen-go/ogen v0.62.0 h1:RNsrAbso1DGpxZO5RCL5wd8pDh+sTsyUrYJovdJ3FuQ=
+github.com/ogen-go/ogen v0.62.0/go.mod h1:Rn43MIqVcT8utwLi45lv7e/a4kPRk+klLsWsgB1z9GQ=
 github.com/pelletier/go-toml/v2 v2.0.6 h1:nrzqCb7j9cDFj2coyLNLaZuJTLjWjlaz6nvTvIwycIU=
 github.com/pelletier/go-toml/v2 v2.0.6/go.mod h1:eumQOmlWiOPt5WriQQqoM5y18pDHwha2N+QD+EUNTek=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=

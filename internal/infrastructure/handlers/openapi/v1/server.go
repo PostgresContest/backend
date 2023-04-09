@@ -7,7 +7,7 @@ import (
 	"backend/internal/infrastructure/config"
 	"backend/internal/infrastructure/handlers/openapi/v1/middlewares"
 	"backend/internal/logger"
-	oapi "github.com/PostgresContest/openapi/gen/v1"
+	oapi "github.com/PostgresContest/openapi/go/gen/v1"
 )
 
 type Server struct {

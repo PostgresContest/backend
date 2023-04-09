@@ -2,7 +2,7 @@ package hydrators
 
 import (
 	"backend/models"
-	oapi "github.com/PostgresContest/openapi/gen/v1"
+	oapi "github.com/PostgresContest/openapi/go/gen/v1"
 )
 
 type AttemptOption func(attempt *oapi.Attempt)

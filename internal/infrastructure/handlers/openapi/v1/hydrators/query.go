@@ -5,7 +5,7 @@ import (
 
 	"backend/internal/infrastructure/executor"
 	"backend/models"
-	oapi "github.com/PostgresContest/openapi/gen/v1"
+	oapi "github.com/PostgresContest/openapi/go/gen/v1"
 )
 
 func HydrateQuery(q *models.Query) *oapi.Query {

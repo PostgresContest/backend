@@ -6,7 +6,7 @@ import (
 	pctx "backend/internal/context"
 	"backend/internal/errors"
 	"backend/models"
-	oapi "github.com/PostgresContest/openapi/gen/v1"
+	oapi "github.com/PostgresContest/openapi/go/gen/v1"
 )
 
 type Security struct {

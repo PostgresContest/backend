@@ -2,7 +2,7 @@ package hydrators
 
 import (
 	"backend/internal/infrastructure/executor"
-	oapi "github.com/PostgresContest/openapi/gen/v1"
+	oapi "github.com/PostgresContest/openapi/go/gen/v1"
 )
 
 func HydrateFieldDescription(description executor.FieldDescription) *oapi.FieldDescription {
