@@ -71,6 +71,15 @@ func (m *ModuleTask) TaskPost(ctx builtinContext.Context, req *oapi.TaskPostReq)
 	return taskRes, nil
 }
 
+func (m *ModuleTask) TaskTaskIDGet(ctx builtinContext.Context, params oapi.TaskTaskIDGetParams) (*oapi.Task, error) {
+	task, err := m.taskRepository.GetByID(ctx, params.TaskID)
+	if err != nil {
+		return nil, err
+	}
+
+	return hydrators.HydrateTask(task), err
+}
+
 func (m *ModuleTask) TasksGet(ctx builtinContext.Context) ([]oapi.Task, error) {
 	tasks, err := m.taskRepository.GetAll(ctx)
 	if err != nil {
