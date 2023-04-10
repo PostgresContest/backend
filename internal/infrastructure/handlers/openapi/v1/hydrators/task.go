@@ -7,9 +7,9 @@ import (
 
 type TaskOption func(*oapi.Task)
 
-func TaskWithQuery(query *models.Query) TaskOption {
+func TaskWithQuery(query *models.Query, options ...QueryOption) TaskOption {
 	return func(task *oapi.Task) {
-		task.Query = oapi.NewOptQuery(*HydrateQuery(query))
+		task.Query = oapi.NewOptQuery(*HydrateQuery(query, options...))
 	}
 }
 

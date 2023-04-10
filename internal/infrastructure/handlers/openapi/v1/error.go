@@ -34,11 +34,16 @@ func (h *Handler) NewError(_ context.Context, err error) *oapi.ErrStatusCode {
 
 	var httpErr errors.HTTPError
 	if errorsBuiltin.As(err, &httpErr) && httpErr != nil {
+		urmsg := oapi.OptString{}
+		if len(httpErr.UserReadableMessage()) > 0 {
+			urmsg = oapi.NewOptString(httpErr.UserReadableMessage())
+		}
 		return &oapi.ErrStatusCode{
 			StatusCode: httpErr.Code(),
 			Response: oapi.Err{
-				Code:    httpErr.Code(),
-				Message: httpErr.Message(),
+				Code:                httpErr.Code(),
+				Message:             httpErr.Message(),
+				UserReadableMessage: urmsg,
 			},
 		}
 	}

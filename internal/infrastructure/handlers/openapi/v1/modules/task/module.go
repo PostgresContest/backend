@@ -2,6 +2,9 @@ package task
 
 import (
 	builtinContext "context"
+	errorsBuiltin "errors"
+	"github.com/jackc/pgx/v5/pgconn"
+	"net/http"
 	"time"
 
 	"backend/internal/context"
@@ -46,6 +49,11 @@ func NewProvider(
 func (m *ModuleTask) TaskPost(ctx builtinContext.Context, req *oapi.TaskPostReq) (*oapi.Task, error) {
 	result, err := m.executor.Execute(ctx, req.QueryRaw)
 	if err != nil {
+		var pgError *pgconn.PgError
+		if errorsBuiltin.As(err, &pgError) {
+			return nil, errors.NewHTTPError(http.StatusBadRequest, pgError.Message)
+		}
+
 		return nil, err
 	}
 
@@ -77,7 +85,14 @@ func (m *ModuleTask) TaskTaskIDGet(ctx builtinContext.Context, params oapi.TaskT
 		return nil, err
 	}
 
-	return hydrators.HydrateTask(task), err
+	query, err := m.queryRepository.GetByID(ctx, task.QueryID)
+	if err != nil {
+		return nil, err
+	}
+
+	result := hydrators.HydrateTask(task, hydrators.TaskWithQuery(query, hydrators.QueryHideSolution()))
+
+	return result, err
 }
 
 func (m *ModuleTask) TasksGet(ctx builtinContext.Context) ([]oapi.Task, error) {
@@ -132,6 +147,15 @@ func (m *ModuleTask) TaskTaskIDAttemptPost(
 	result, err := m.executor.Execute(ctx, q)
 
 	if err != nil {
+		var pgError *pgconn.PgError
+		if errorsBuiltin.As(err, &pgError) {
+			return nil, errors.NewHTTPErrorWithUserReadableMessage(
+				http.StatusBadRequest,
+				pgError.Message,
+				pgError.Message,
+			)
+		}
+
 		return nil, err
 	}
 

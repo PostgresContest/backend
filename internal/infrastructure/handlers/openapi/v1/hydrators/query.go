@@ -8,11 +8,20 @@ import (
 	oapi "github.com/PostgresContest/openapi/go/gen/v1"
 )
 
-func HydrateQuery(q *models.Query) *oapi.Query {
+type QueryOption func(query *oapi.Query)
+
+func QueryHideSolution() QueryOption {
+	return func(query *oapi.Query) {
+		query.QueryRow = ""
+		query.QueryHash = ""
+	}
+}
+
+func HydrateQuery(q *models.Query, options ...QueryOption) *oapi.Query {
 	var fds []executor.FieldDescription
 	_ = json.Unmarshal([]byte(q.FieldDescriptions), &fds)
 
-	return &oapi.Query{
+	query := &oapi.Query{
 		ID:               q.ID,
 		QueryRow:         q.QueryRaw,
 		QueryHash:        q.QueryHash,
@@ -20,4 +29,9 @@ func HydrateQuery(q *models.Query) *oapi.Query {
 		ResultHash:       q.ResultHash,
 		FieldDescription: HydrateFieldDescriptions(fds),
 	}
+
+	for _, option := range options {
+		option(query)
+	}
+	return query
 }
